@@ -1,0 +1,106 @@
+body {
+    background: seagreen;
+    color: purple;
+}
+
+.title {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title h1 {
+    position: relative;
+    margin-top: 8rem;
+    margin-bottom: -8rem;
+    align-items: center;
+    justify-content: center;
+    color: rgb(202, 94, 235);
+}
+
+.btn {
+    display: grid;
+    place-content: center;
+    margin-top: 14rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn .user {
+    width: 130px;
+    height: 70px;
+    border-radius: 10px;
+    border-color: #fff;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(0px);
+    transition: .5s ease-in-out;
+}
+
+.btn .user a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #000;
+}
+
+.btn .user:hover {
+    background-color: red ;
+    color: #fff;
+    transform: translateY(-8px);
+}
+
+.btn .hola {
+    width: 130px;
+    margin-top: 10px;
+    height: 70px;
+    border-radius: 10px;
+    border-color: #fff;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(0px);
+    transition: .5s ease-in-out;
+}
+
+.btn .hola a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #000;
+}
+
+.btn .hola:hover {
+    background-color: blue ;
+    color: #fff;
+    transform: translateY(-8px);
+
+}
+
+.btn .caf {
+    width: 130px;
+    margin-top: 10px;
+    height: 70px;
+    border-radius: 10px;
+    border-color: #fff;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(0px);
+    transition: .5s ease-in-out;
+
+}
+
+.btn .caf a {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #000;
+}
+
+.btn .caf:hover {
+    background-color: yellow ;
+    color: #fff;
+    transform: translateY(-8px);
+
+}
+
