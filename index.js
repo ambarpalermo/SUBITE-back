@@ -198,3 +198,5 @@ app.put('/user/:id', (req, res) => {
     console.log(req.body);
     res.send(`User ${req.params.id} updated`);
 });
+
+console.log("hola"); 
