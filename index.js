@@ -68,80 +68,93 @@ app.get('/caf', (req, res) => {
 
 // RUTAS DE LINEAS --------------------------------------------------------------
 app.get('/lineaA', (req, res) => {
-    con.query("SELECT Estaciones FROM linea_a", (err, res) => {
+    con.query("SELECT Estaciones FROM linea_a", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
+
 });
 app.get('/lineaAdire', (req, res) => {
-    con.query("SELECT A_San_Pedrito, A_Plaza_De_Mayo FROM linea_a", (err, res) => {
+    con.query("SELECT A_San_Pedrito, A_Plaza_De_Mayo FROM linea_a", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 
 app.get('/lineaB', (req, res) => {
-    con.query("SELECT Estaciones FROM linea_b", (err, res) => {
+    con.query("SELECT Estaciones FROM linea_b", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 app.get('/lineaBdire', (req, res) => {
-    con.query("SELECT A_Rosas, A_Alem FROM linea_b", (err, res) => {
+    con.query("SELECT A_Rosas, A_Alem FROM linea_b", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 
 app.get('/lineaC', (req, res) => {
-    con.query("SELECT Estaciones FROM linea_c", (err, res) => {
+    con.query("SELECT Estaciones FROM linea_c", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 app.get('/lineaCdire', (req, res) => {
-    con.query("SELECT A_Constitucion, A_Retiro FROM linea_c", (err, res) => {
+    con.query("SELECT A_Constitucion, A_Retiro FROM linea_c", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 
 app.get('/lineaD', (req, res) => {
-    con.query("SELECT Estaciones FROM linea_d", (err, res) => {
+    con.query("SELECT Estaciones FROM linea_d", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 app.get('/lineaDdire', (req, res) => {
-    con.query("SELECT A_Congreso, A_Catedral FROM linea_d", (err, res) => {
+    con.query("SELECT A_Congreso, A_Catedral FROM linea_d", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     }) 
 });
 
 app.get('/lineaE', (req, res) => {
-    con.query("SELECT Estaciones FROM linea_e", (err, res) => {
+    con.query("SELECT Estaciones FROM linea_e", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 app.get('/lineaEdire', (req, res) => {
-    con.query("SELECT A_Plaza_De_Los_Virreyes, A_Retiro FROM linea_e", (err, res) => {
+    con.query("SELECT A_Plaza_De_Los_Virreyes, A_Retiro FROM linea_e", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 
 app.get('/lineaH', (req, res) => {
-    con.query("SELECT Estaciones FROM linea_h", (err, res) => {
+    con.query("SELECT Estaciones FROM linea_h", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 app.get('/lineaHdire', (req, res) => {
-    con.query("SELECT A_Hospitales, A_Facultad_De_Derecho FROM linea_h", (err, res) => {
+    con.query("SELECT A_Hospitales, A_Facultad_De_Derecho FROM linea_h", (err, res_db) => {
         if (err) throw err;
-        console.log(res)
+        console.log(res_db);
+        res.json(res_db);
     })
 });
 
