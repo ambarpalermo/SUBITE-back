@@ -158,6 +158,16 @@ app.get('/lineaHdire', (req, res) => {
     })
 });
 
+app.get("/jsontrenes", (req, res) => {
+    const {hum, temp, people, air, sound, Linea, IDvagon} = req.body;
+    console.log(vagon);
+
+    con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, IDvagon) VALUES ('"+hum+"', '"+temp+"', '"+people+"', '"+air+"', '"+sound+"', '"+Linea+"', '"+IDvagon+"')", (err, res_db) => {
+        if (err) throw err;
+})
+
+
+
 //HASTA ACA --------------------------------------------------
 /* app.get('/test' , (req, res) => {
     res.send('<h1>TEST</h1>');
@@ -165,24 +175,11 @@ app.get('/lineaHdire', (req, res) => {
 
 app.use(express.static('public'));
 
-app.listen(5000, () => {
-    console.log('Server on port 5000');
-});
-
-try {
-    bd.authenticate()
-    console.log("se conecto correctamente")
-
-    console.log(bd.models)
-} catch (error) {
-    console.log("Hubo un error", error)
-}
-
 //PRUEBA POSTMAN ------------------------------------------------------------------
 app.post('/prueba', (req,res) => {
     console.log(req.body);
     res.send('POST REQUEST RECIEVED');
-} )
+});
 
 app.post('/user/:id' , (req, res) => {
     console.log(req.body);
@@ -198,5 +195,16 @@ app.put('/user/:id', (req, res) => {
     console.log(req.body);
     res.send(`User ${req.params.id} updated`);
 });
+});
 
-console.log("hola"); 
+app.listen(5000, () => {
+    console.log('Server on port 5000');
+});
+try {
+    bd.authenticate()
+    console.log("se conecto correctamente")
+
+    console.log(bd.models)
+} catch (error) {
+    console.log("Hubo un error", error)
+}
