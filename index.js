@@ -158,14 +158,26 @@ app.get('/lineaHdire', (req, res) => {
     })
 });
 
-app.get("/jsontrenes", (req, res) => {
+app.post("/jsontrenes", (req, res) => {
+    console.log({req})
     const {hum, temp, people, air, sound, Linea, IDvagon} = req.body;
-    console.log(vagon);
+
+    
 
     con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, IDvagon) VALUES ('"+hum+"', '"+temp+"', '"+people+"', '"+air+"', '"+sound+"', '"+Linea+"', '"+IDvagon+"')", (err, res_db) => {
         if (err) throw err;
+        console.log(res_db);
+        res.json(res_db);
+    })
 })
 
+app.post("/infotrenes", (req, res) => {
+    con.query("SELECT humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, IDvagon FROM json", (err, res_db) => {
+        if (err) throw err;
+        console.log(res_db);
+        res.json(res_db);
+    })
+})
 
 
 //HASTA ACA --------------------------------------------------
@@ -194,7 +206,6 @@ app.delete('/user/:userID', (req, res) => {
 app.put('/user/:id', (req, res) => {
     console.log(req.body);
     res.send(`User ${req.params.id} updated`);
-});
 });
 
 app.listen(5000, () => {
