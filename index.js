@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const Sequelize = require('sequelize')
 const mysql = require('mysql')
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }))
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -36,7 +38,7 @@ app.all('/user', (req, res, next) => {
     next();
 });
  */
-
+/* 
 //INFO USUARIOS ------------------------------------------------
 app.get('/user', (req, res) => {
     res.json({ 
@@ -64,7 +66,7 @@ app.get('/caf', (req, res) => {
         nivel_de_conidad: 'rompe niveles',
     }) 
 });
-//HASTA ACA --------------------------------------------------
+//HASTA ACA -------------------------------------------------- */
 
 // RUTAS DE LINEAS --------------------------------------------------------------
 app.get('/lineaA', (req, res) => {
@@ -159,12 +161,9 @@ app.get('/lineaHdire', (req, res) => {
 });
 
 app.post("/jsontrenes", (req, res) => {
-    console.log({req})
+    console.log(req.body)
     const {hum, temp, people, air, sound, Linea, IDvagon} = req.body;
-
-    
-
-    con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, IDvagon) VALUES ('"+hum+"', '"+temp+"', '"+people+"', '"+air+"', '"+sound+"', '"+Linea+"', '"+IDvagon+"')", (err, res_db) => {
+    con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, ID_Vagon) VALUES ('"+hum+"', '"+temp+"', '"+people+"', '"+air+"', '"+sound+"', '"+Linea+"', '"+IDvagon+"')", (err, res_db) => {
         if (err) throw err;
         console.log(res_db);
         res.json(res_db);
@@ -180,6 +179,7 @@ app.post("/infotrenes", (req, res) => {
 })
 
 
+
 //HASTA ACA --------------------------------------------------
 /* app.get('/test' , (req, res) => {
     res.send('<h1>TEST</h1>');
@@ -188,7 +188,7 @@ app.post("/infotrenes", (req, res) => {
 app.use(express.static('public'));
 
 //PRUEBA POSTMAN ------------------------------------------------------------------
-app.post('/prueba', (req,res) => {
+/* app.post('/prueba', (req,res) => {
     console.log(req.body);
     res.send('POST REQUEST RECIEVED');
 });
@@ -207,7 +207,7 @@ app.put('/user/:id', (req, res) => {
     console.log(req.body);
     res.send(`User ${req.params.id} updated`);
 });
-
+ */
 app.listen(5000, () => {
     console.log('Server on port 5000');
 });
