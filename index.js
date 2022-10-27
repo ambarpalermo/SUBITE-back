@@ -32,41 +32,6 @@ function logger(req, res, next) {
 app.use(express.json());
 app.use(logger);
 
-/* //funcion a realizar antes de que pase por /user
-app.all('/user', (req, res, next) => {
-    console.log('User: Por aqui paso');
-    next();
-});
- */
-/* 
-//INFO USUARIOS ------------------------------------------------
-app.get('/user', (req, res) => {
-    res.json({ 
-        username:'Ambar',
-        lastname: 'Palermo',
-        age: '16 años',
-        nivel_de_conidad: '8,5'
-    }) 
-});
-
-app.get('/hola', (req, res) => {
-    res.json({ 
-        username:'Bruno',
-        lastname: 'Mendiburu',
-        age: '16 años',
-        nivel_de_conidad: '9 solido',
-    }) 
-});
-
-app.get('/caf', (req, res) => {
-    res.json({ 
-        username:'Thiago',
-        lastname: 'Cafaro',
-        age: '16 años',
-        nivel_de_conidad: 'rompe niveles',
-    }) 
-});
-//HASTA ACA -------------------------------------------------- */
 
 // RUTAS DE LINEAS --------------------------------------------------------------
 app.get('/lineaA', (req, res) => {
@@ -160,6 +125,7 @@ app.get('/lineaHdire', (req, res) => {
     })
 });
 
+//aca recibo los datos del json de pipe y ls guardo en la base de datos
 app.post("/jsontrenes", (req, res) => {
     console.log(req.body)
     const {hum, temp, people, air, sound, Linea, IDvagon} = req.body;
@@ -170,6 +136,7 @@ app.post("/jsontrenes", (req, res) => {
     })
 })
 
+//aca levanto los datos del json de pipe de la base de datos, que KELMAN los agarre
 app.post("/infotrenes", (req, res) => {
     con.query("SELECT humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, IDvagon FROM json", (err, res_db) => {
         if (err) throw err;
@@ -187,27 +154,6 @@ app.post("/infotrenes", (req, res) => {
 
 app.use(express.static('public'));
 
-//PRUEBA POSTMAN ------------------------------------------------------------------
-/* app.post('/prueba', (req,res) => {
-    console.log(req.body);
-    res.send('POST REQUEST RECIEVED');
-});
-
-app.post('/user/:id' , (req, res) => {
-    console.log(req.body);
-    console.log(req.params)
-    res.send('POST REQUEST RECIVED');
-});
-
-app.delete('/user/:userID', (req, res) => {
-    res.send(`User ${req.params.userID} deleted`);
-});
-
-app.put('/user/:id', (req, res) => {
-    console.log(req.body);
-    res.send(`User ${req.params.id} updated`);
-});
- */
 app.listen(5000, () => {
     console.log('Server on port 5000');
 });
