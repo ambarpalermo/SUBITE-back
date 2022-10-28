@@ -3,13 +3,17 @@ const app = express();
 const Sequelize = require('sequelize')
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
+const path = require('path');
+
+app.use(express.static('../front-subite'))
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "rootroot",
-    database: "proyecto_subite"
+    database: "subite_db"
 })
 
 con.connect((err) => {
@@ -22,6 +26,14 @@ const bd = new Sequelize("proyecto_subite", "root", "rootroot", {
     host: "localhost",
     dialect: "mysql"
 })
+
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve('../front-subite/index.html'));
+});
+
+app.get('/tren', (req, res) => {
+    res.sendFile(path.resolve('../front-subite/ProximoTren.html'));
+});
 
 // funcion para que te de el url e info 
 function logger(req, res, next) {
@@ -154,6 +166,14 @@ app.get('/lineaH', (req, res) => {
 });
 app.get('/lineaHdire', (req, res) => {
     con.query("SELECT A_Hospitales, A_Facultad_De_Derecho FROM linea_h", (err, res_db) => {
+        if (err) throw err;
+        console.log(res_db);
+        res.json(res_db);
+    })
+});
+
+app.get('/trenes', (req, res) => {
+    con.query("SELECT * FROM json", (err, res_db) => {
         if (err) throw err;
         console.log(res_db);
         res.json(res_db);
