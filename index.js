@@ -13,7 +13,7 @@ var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "rootroot",
-    database: "subite_db"
+    database: "proyecto_subite"
 })
 
 con.connect((err) => {
