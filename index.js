@@ -165,6 +165,24 @@ app.post("/infotrenes", (req, res) => {
     })
 })
 
+app.get("/info", (req, res) => {
+    const { linea, terminal, estacion } = req.body
+    const arrTrenes = []
+    const arrEstaciones = []
+    console.log(estacion) // estacion en la que estas
+    
+    con.query(`SELECT Estaciones FROM ${linea}`, (err, res_db) => {
+        if(res_db !== estacion) {
+            arrEstaciones.push(res_db)
+        }
+    })
+
+    con.query(`SELECT Estacion FROM json`, (err, res_db) => {
+        
+    })   
+
+})
+
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '../front-subite/index.html'));
 })
