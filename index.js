@@ -165,7 +165,7 @@ app.post("/infotrenes", (req, res) => {
     })
 })
 
-
+//haciendo.....
 app.get("/info", (req, res) => {
     const { linea, terminal, estacion } = req.body
     const arrTrenes = []
