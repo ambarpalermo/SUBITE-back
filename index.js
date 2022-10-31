@@ -165,6 +165,7 @@ app.post("/infotrenes", (req, res) => {
     })
 })
 
+//haciendo.....
 app.get("/info", (req, res) => {
     const { linea, terminal, estacion } = req.body
     const arrTrenes = []
@@ -187,7 +188,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '../front-subite/index.html'));
 })
 
-
+//hola
 //HASTA ACA --------------------------------------------------
 /* app.get('/test' , (req, res) => {
     res.send('<h1>TEST</h1>');
