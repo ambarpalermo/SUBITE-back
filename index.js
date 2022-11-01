@@ -104,7 +104,7 @@ app.get('/lineaDdire', (req, res) => {
         if (err) throw err;
         console.log(res_db);
         res.json(res_db);
-    }) 
+    })
 });
 
 app.get('/lineaE', (req, res) => {
@@ -148,8 +148,8 @@ app.get('/trenes', (req, res) => {
 //aca recibo los datos del json de pipe y ls guardo en la base de datos
 app.post("/jsontrenes", (req, res) => {
     console.log(req.body)
-    const {hum, temp, people, air, sound, Linea, IDvagon} = req.body;
-    con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, ID_Vagon) VALUES ('"+hum+"', '"+temp+"', '"+people+"', '"+air+"', '"+sound+"', '"+Linea+"', '"+IDvagon+"')", (err, res_db) => {
+    const { hum, temp, people, air, sound, Linea, IDvagon } = req.body;
+    con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, ID_Vagon) VALUES ('" + hum + "', '" + temp + "', '" + people + "', '" + air + "', '" + sound + "', '" + Linea + "', '" + IDvagon + "')", (err, res_db) => {
         if (err) throw err;
         console.log(res_db);
         res.json(res_db);
