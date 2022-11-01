@@ -167,21 +167,46 @@ app.post("/infotrenes", (req, res) => {
 
 //haciendo.....
 app.get("/info", (req, res) => {
-    const { linea, terminal, estacion } = req.body
-    const arrTrenes = []
-    const arrEstaciones = []
-    console.log(estacion) // estacion en la que estas
-    
+    const linea = req.query.linea;
+    const estacion = req.query.estacion;
+    const terminal = req.query.terminal;
+    console.log({ linea, estacion, terminal })
+    let corte;
+    let ests = [];
+
     con.query(`SELECT Estaciones FROM ${linea}`, (err, res_db) => {
-        if(res_db !== estacion) {
-            arrEstaciones.push(res_db)
+        corte = res_db.indexOf(estacion);
+
+        if (arr.indexOf(terminal) === 0) {
+            ests = (corte, res_db.length)
+        } else {
+            ests = (0, corte)
         }
+
     })
 
-    con.query(`SELECT Estacion FROM json`, (err, res_db) => {
-        
-    })   
+    const sql = `
+        SELECT * 
+            FROM json 
+            WHERE linea = ? 
+                AND terminal = ?
+                AND estacion IN (`;
 
+    const params = [linea, terminal];
+
+    ests.forEach((e, i) => {
+        sql += i < ests.length - 1 ? "?, " : "?)";
+        params.push(e);
+    })
+
+    console.log(sql);
+
+    console.log(params);
+
+
+    con.query(sql, params, (err, res_db) => {
+        
+    })
 })
 
 app.get("/", (req, res) => {
