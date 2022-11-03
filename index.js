@@ -145,11 +145,27 @@ app.get('/trenes', (req, res) => {
     })
 });
 
+// INSERTAR TODA LA BASE DE DATOS 
+/* con.query("INSERT INTO json ") */
+const vagonesxtren = 8;
+const trenesxlinea = 4;
+const lineas = 6; 
+const totalvagones = vagonesxtren * trenesxlinea * lineas; 
+
+for (var i = 0; i < totalvagones; i++){   
+    console.log({
+        vagon : i,
+        linea : Math.floor(i/(totalvagones/lineas)), 
+        tren : Math.floor(i/vagonesxtren)})
+}
+
+
 //aca recibo los datos del json de pipe y ls guardo en la base de datos
 app.post("/jsontrenes", (req, res) => {
     console.log(req.body)
     const { hum, temp, people, air, sound, Linea, IDvagon } = req.body;
-    con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, ID_Vagon) VALUES ('" + hum + "', '" + temp + "', '" + people + "', '" + air + "', '" + sound + "', '" + Linea + "', '" + IDvagon + "')", (err, res_db) => {
+   //HACER UN UPDATE
+    con.query("UPDATE json SET (humedad = '" + hum + "', temperatura = '" + temp + "', cant_de_personas = '" + people + "', calidad_de_aire = '" + air + "', nivel_de_sonido = '" + sound + "', linea  = '" + Linea + "', vagon = '" + IDvagon + "', tren = '"+IDtren +"', Estacion = '"+estacion+"', Terminal = '"+terminal+"') WHERE (linea = '"+Linea+"', vagon = '" + IDvagon + "', tren = '"+IDtren +"' ) ", (err, res_db) => {
         if (err) throw err;
         console.log(res_db);
         res.json(res_db);
@@ -178,15 +194,14 @@ app.get("/info", (req, res) => {
         corte = res_db.indexOf(estacion);
 
         if (arr.indexOf(terminal) === 0) {
-            ests = (corte, res_db.length)
+            ests = res_db.slice(corte, res_db.length)
         } else {
-            ests = (0, corte)
+            ests = res_db.slice(0, corte).reverse()
         }
-
     })
 
-    const sql = `
-        SELECT * 
+    const sql_tren = `
+        SELECT FIRST(tren) AS SelectedTrain
             FROM json 
             WHERE linea = ? 
                 AND terminal = ?
@@ -195,16 +210,19 @@ app.get("/info", (req, res) => {
     const params = [linea, terminal];
 
     ests.forEach((e, i) => {
-        sql += i < ests.length - 1 ? "?, " : "?)";
+        sql_tren += i < ests.length - 1 ? "?, " : "?)";
         params.push(e);
     })
 
-    console.log(sql);
+    console.log(sql_tren);
 
     console.log(params);
 
+    const sql_vagones = `
+        SELECT * FROM json
+        WHERE tren = ( ` + sql_tren + " );"
 
-    con.query(sql, params, (err, res_db) => {
+    con.query(sql_vagones, params, (err, res_db) => {
         
     })
 })
