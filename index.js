@@ -146,17 +146,56 @@ app.get('/trenes', (req, res) => {
 });
 
 // INSERTAR TODA LA BASE DE DATOS 
-/* con.query("INSERT INTO json ") */
 const vagonesxtren = 8;
 const trenesxlinea = 4;
 const lineas = 6; 
-const totalvagones = vagonesxtren * trenesxlinea * lineas; 
+const totalvagones = vagonesxtren * trenesxlinea * lineas;
 
-for (var i = 0; i < totalvagones; i++){   
-    console.log({
-        vagon : i,
-        linea : Math.floor(i/(totalvagones/lineas)), 
-        tren : Math.floor(i/vagonesxtren)})
+for (var i = 0; i < totalvagones; i++){
+    const id_linea = Math.floor(i/(totalvagones/lineas));
+    const tren_id = Math.floor(i/vagonesxtren);
+    const id_vagon = [
+        {
+            vagon_id: i,
+            linea: "",
+            id_tren: tren_id
+        }
+    ];
+
+    id_vagon.map((vagon) => {
+        if(vagon.vagon_id >= 0 && vagon.vagon_id < 32) {
+            vagon.linea = "A"
+        }
+
+        if(vagon.vagon_id >= 32 && vagon.vagon_id < 64) {
+            vagon.linea = "B"
+        }
+
+        if(vagon.vagon_id >= 64 && vagon.vagon_id < 96) {
+            vagon.linea = "C"
+        }
+
+        if(vagon.vagon_id >= 96 && vagon.vagon_id < 128) {
+            vagon.linea = "D"
+        }
+
+        if(vagon.vagon_id >= 128 && vagon.vagon_id < 160) {
+            vagon.linea = "E"
+        }
+
+        if(vagon.vagon_id >= 160 && vagon.vagon_id < 192) {
+            vagon.linea = "F"
+        }
+
+        console.log(vagon)
+
+        // con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, ID_Vagon, Linea, IDtren, Estacion, Terminal) VALUES ('"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', '"+vagon.vagon_id+"', '"+vagon.linea+"', '"+vagon.id_tren+"', '"+ null +"', '"+ null +"',) " , (err, res_db) => {
+        //      if (err) throw err;
+        //      console.log(res_db);
+        //      res.json(res_db);
+        //  });  
+    })
+
 }
 
 
@@ -165,7 +204,7 @@ app.post("/jsontrenes", (req, res) => {
     console.log(req.body)
     const { hum, temp, people, air, sound, Linea, IDvagon } = req.body;
    //HACER UN UPDATE
-    con.query("UPDATE json SET (humedad = '" + hum + "', temperatura = '" + temp + "', cant_de_personas = '" + people + "', calidad_de_aire = '" + air + "', nivel_de_sonido = '" + sound + "', linea  = '" + Linea + "', vagon = '" + IDvagon + "', tren = '"+IDtren +"', Estacion = '"+estacion+"', Terminal = '"+terminal+"') WHERE (linea = '"+Linea+"', vagon = '" + IDvagon + "', tren = '"+IDtren +"' ) ", (err, res_db) => {
+    con.query("UPDATE json SET (humedad = '" + hum + "', temperatura = '" + temp + "', cant_de_personas = '" + people + "', calidad_de_aire = '" + air + "', nivel_de_sonido = '" + sound + "', Estacion = '"+estacion+"', Terminal = '"+terminal+"') WHERE (IDlinea = '"+Linea+"', IDvagon = '" + IDvagon + "', IDtren = '"+IDtren +"' ) ", (err, res_db) => {
         if (err) throw err;
         console.log(res_db);
         res.json(res_db);
@@ -201,7 +240,7 @@ app.get("/info", (req, res) => {
     })
 
     const sql_tren = `
-        SELECT FIRST(tren) AS SelectedTrain
+        SELECT FIRST(IDtren) AS SelectedTrain
             FROM json 
             WHERE linea = ? 
                 AND terminal = ?
@@ -220,7 +259,7 @@ app.get("/info", (req, res) => {
 
     const sql_vagones = `
         SELECT * FROM json
-        WHERE tren = ( ` + sql_tren + " );"
+        WHERE IDtren = ( ` + sql_tren + " );"
 
     con.query(sql_vagones, params, (err, res_db) => {
         
