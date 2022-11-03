@@ -146,58 +146,57 @@ app.get('/trenes', (req, res) => {
 });
 
 // INSERTAR TODA LA BASE DE DATOS 
-const vagonesxtren = 8;
+/* const vagonesxtren = 8;
 const trenesxlinea = 4;
 const lineas = 6; 
 const totalvagones = vagonesxtren * trenesxlinea * lineas;
-
-for (var i = 0; i < totalvagones; i++){
+ */
+/* for (var i = 0; i < totalvagones; i++){
     const id_linea = Math.floor(i/(totalvagones/lineas));
     const tren_id = Math.floor(i/vagonesxtren);
-    const id_vagon = [
-        {
-            vagon_id: i,
-            linea: "",
-            id_tren: tren_id
-        }
-    ];
+    const id_vagon = i
+    const valores = [];
 
-    id_vagon.map((vagon) => {
-        if(vagon.vagon_id >= 0 && vagon.vagon_id < 32) {
-            vagon.linea = "A"
-        }
+    valores[i] = id_linea
 
-        if(vagon.vagon_id >= 32 && vagon.vagon_id < 64) {
-            vagon.linea = "B"
-        }
+    if(valores[i] === 0) {
+        valores[i] = "A"
 
-        if(vagon.vagon_id >= 64 && vagon.vagon_id < 96) {
-            vagon.linea = "C"
-        }
+    }
 
-        if(vagon.vagon_id >= 96 && vagon.vagon_id < 128) {
-            vagon.linea = "D"
-        }
+    if(valores[i] === 1) {
+        valores[i] = "B"
 
-        if(vagon.vagon_id >= 128 && vagon.vagon_id < 160) {
-            vagon.linea = "E"
-        }
+    }
 
-        if(vagon.vagon_id >= 160 && vagon.vagon_id < 192) {
-            vagon.linea = "F"
-        }
+    if(valores[i] === 2) {
+        valores[i] = "C"
 
-        console.log(vagon)
+    }
 
-        // con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, ID_Vagon, Linea, IDtren, Estacion, Terminal) VALUES ('"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', '"+vagon.vagon_id+"', '"+vagon.linea+"', '"+vagon.id_tren+"', '"+ null +"', '"+ null +"',) " , (err, res_db) => {
-        //      if (err) throw err;
-        //      console.log(res_db);
-        //      res.json(res_db);
-        //  });  
-    })
+    if(valores[i] === 3) {
+        valores[i] = "D"
+
+    }
+
+    if(valores[i] === 4) {
+        valores[i] = "E"
+
+    }
+
+    if(valores[i] === 5) {
+        valores[i] = "F"
+
+    }
+
+    con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, ID_Vagon, Linea, IDtren, Estacion, Terminal) VALUES ('"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', "+id_vagon+", '"+valores[i]+"', "+tren_id+", '"+ null +"', '"+ null +"') " , (err, res_db) => {
+        if (err) throw err;
+    console.log(res_db);
+    //res.json(res_db);
+    }); 
 
 }
-
+ */
 
 //aca recibo los datos del json de pipe y ls guardo en la base de datos
 app.post("/jsontrenes", (req, res) => {
