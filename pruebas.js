@@ -69,3 +69,11 @@ app.get('/caf', (req, res) => {
     }) 
 });
 //HASTA ACA -------------------------------------------------- */
+
+/* SELECT * FROM json
+WHERE IDtren = ( 
+    SELECT IDtren 
+    FROM json
+    WHERE Linea = 'linea_a' 
+    AND Terminal = 'San_Pedrito'
+    AND Estacion IN ('Plaza_De_Mayo') ); */
