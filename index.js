@@ -165,6 +165,53 @@ app.post("/infotrenes", (req, res) => {
     })
 })
 
+app.get("/rutas", (req,res) => {
+    con.query("SELECT temp FROM json WHERE ")
+})
+ 
+// INSERTAR TODA LA BASE DE DATOS 
+
+function create_DB_vagones(vagonesxtren, trenesxlinea, arr_lineas){
+    const cant_lineas = arr_lineas.length; 
+    const totalvagones = vagonesxtren * trenesxlinea * cant_lineas;
+
+    for (var i = 0; i < totalvagones; i++){
+        const id_linea = Math.floor(i/(totalvagones/cant_lineas));
+        const tren_id = Math.floor(i/vagonesxtren);
+        const id_vagon = i    
+        const linea = arr_lineas[id_linea];
+
+        con.query("INSERT INTO json (humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, ID_Vagon, Linea, IDtren, Estacion, Terminal) VALUES ('"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', '"+ null +"', "+id_vagon+", '"+linea+"', "+tren_id+", '"+ null +"', '"+ null +"') " , (err, res_db) => {
+            if (err) throw err;
+        console.log(res_db);
+        //res.json(res_db);
+        }); 
+    }
+}
+
+// create_DB_vagones(8, 4, ["A", "B", "C", "D", "E", "H"])
+
+//aca recibo los datos del json de pipe y ls guardo en la base de datos
+app.post("/jsontrenes", (req, res) => {
+    console.log(req.body)
+    const { hum, temp, people, air, sound, Linea, IDvagon } = req.body;
+   //HACER UN UPDATE
+    con.query("UPDATE json SET (humedad = '" + hum + "', temperatura = '" + temp + "', cant_de_personas = '" + people + "', calidad_de_aire = '" + air + "', nivel_de_sonido = '" + sound + "', Estacion = '"+estacion+"', Terminal = '"+terminal+"') WHERE (IDlinea = '"+Linea+"', IDvagon = '" + IDvagon + "', IDtren = '"+IDtren +"' ) ", (err, res_db) => {
+        if (err) throw err;
+        console.log(res_db);
+        res.json(res_db);
+    })
+})
+
+//aca levanto los datos del json de pipe de la base de datos, que KELMAN los agarre
+app.post("/infotrenes", (req, res) => {
+    con.query("SELECT humedad, temperatura, cant_de_personas, calidad_de_aire, nivel_de_sonido, Linea, IDvagon FROM json", (err, res_db) => {
+        if (err) throw err;
+        console.log(res_db);
+        res.json(res_db);
+    })
+})
+
 //haciendo.....
 app.get("/info", (req, res) => {
     const linea = req.query.linea;
@@ -175,40 +222,45 @@ app.get("/info", (req, res) => {
     let ests = [];
 
     con.query(`SELECT Estaciones FROM ${linea}`, (err, res_db) => {
-        corte = res_db.indexOf(estacion);
-
-        if (arr.indexOf(terminal) === 0) {
-            ests = (corte, res_db.length)
+        if (err) {
+            throw err;
         } else {
-            ests = (0, corte)
+            console.log(res_db)
+            // corte = res_db.indexOf(estacion);
+            // if (ests.indexOf(terminal) === 0) {
+            //     ests = res_db.slice(corte, res_db.length)
+            // } else {
+            //     ests = res_db.slice(0, corte).reverse()
+            // }
         }
-
     })
 
-    const sql = `
-        SELECT * 
-            FROM json 
-            WHERE linea = ? 
-                AND terminal = ?
-                AND estacion IN (`;
+    const sql_tren = `
+        SELECT FIRST(IDtren) AS SelectedTrain
+            FROM json
+            WHERE Linea = ? 
+                AND Terminal = ?
+                AND Estacion IN (`;
 
     const params = [linea, terminal];
 
     ests.forEach((e, i) => {
-        sql += i < ests.length - 1 ? "?, " : "?)";
+        sql_tren += i < ests.length - 1 ? "?, " : "?)";
         params.push(e);
     })
 
-    console.log(sql);
+    console.log(sql_tren);
 
     console.log(params);
 
+    const sql_vagones = `
+        SELECT * FROM json
+        WHERE IDtren = ( ` + sql_tren + " );"
 
-    con.query(sql, params, (err, res_db) => {
+    con.query(sql_vagones, params, (err, res_db) => {
         
     })
 })
-
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '../front-subite/index.html'));
 })
