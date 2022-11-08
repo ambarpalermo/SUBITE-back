@@ -321,7 +321,8 @@ app.get("/info", (req, res) => {
             // Hacer la query
             const results = con.query(sql_tren, req.params, (error, results) => {
                 if (error) {
-                  res.status(404).send("Hubo un error")
+                  res.status(404)
+                  console.log("error")
                 } else {
                   res.json(results)
                 }
@@ -338,7 +339,7 @@ app.get("/info", (req, res) => {
               con.query(sql_vagones, params, (err, res_vagones) => {
                   console.log({ Vagones: res_vagones })
                   console.log(err)
-                  res.json(res_vagones).send(res_vagones)
+                  res.json(res_vagones)
               })
             }
 
