@@ -201,7 +201,7 @@ for (var i = 0; i < totalvagones; i++){
 //aca recibo los datos del json de pipe y ls guardo en la base de datos
 app.post("/jsontrenes", (req, res) => {
     console.log(req.body)
-    const { hum, temp, people, air, sound, Linea, IDvagon } = req.body;
+    const { hum, temp, people, air, sound, Linea, IDvagon, estacion, terminal, IDtren } = req.body;
     //HACER UN UPDATE
     con.query("UPDATE json SET (humedad = '" + hum + "', temperatura = '" + temp + "', cant_de_personas = '" + people + "', calidad_de_aire = '" + air + "', nivel_de_sonido = '" + sound + "', Estacion = '" + estacion + "', Terminal = '" + terminal + "') WHERE (IDlinea = '" + Linea + "', IDvagon = '" + IDvagon + "', IDtren = '" + IDtren + "' ) ", (err, res_db) => {
         if (err) throw err;
