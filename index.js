@@ -334,9 +334,9 @@ app.get("/info", (req, res) => {
                   SELECT * FROM json
                   WHERE IDtren = '` + results + "';"
   
-  
               console.log({ SQLVagones: sql_vagones, SQLParams: params })
-              con.query(sql_vagones, params, (err, res_vagones) => {
+              ////////hasta aca 
+              con.query(sql_vagones, req.params, (err, res_vagones) => {
                   console.log({ Vagones: res_vagones })
                   console.log(err)
                   res.json(res_vagones)
