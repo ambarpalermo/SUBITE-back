@@ -254,11 +254,11 @@ app.post("/jsontrenes", (req, res) => {
     hum = parseInt(hum);
     temp = parseInt(temp);
     people = parseInt(people);
-    air= parseInt(air);
-    IDvagon = parseInt(IDvagon); 
+    air = parseInt(air);
+    IDvagon = parseInt(IDvagon);
     IDtren = parseInt(IDtren);
     console.log(hum, temp);
-    con.query("UPDATE json SET humedad = ?, temperatura = ?, cant_de_personas = ?, calidad_de_aire = ?, nivel_de_sonido = ?, Estacion = ?, Terminal = ? WHERE Linea = ? AND ID_Vagon = ? AND IDtren = ?", [ hum, temp, people, air, sound, estacion, terminal, Linea, IDvagon, IDtren], (err, res_db) => {
+    con.query("UPDATE json SET humedad = ?, temperatura = ?, cant_de_personas = ?, calidad_de_aire = ?, nivel_de_sonido = ?, Estacion = ?, Terminal = ? WHERE Linea = ? AND ID_Vagon = ? AND IDtren = ?", [hum, temp, people, air, sound, estacion, terminal, Linea, IDvagon, IDtren], (err, res_db) => {
         if (err) throw err;
         console.log(res_db);
         res.json(res_db);
@@ -307,54 +307,61 @@ app.get("/info", (req, res) => {
             } else {
                 ests = arr.slice(0, corte).reverse()
             }
-            let sql_tren = `
-            SELECT IDtren AS SelectedTrain
-                FROM json
-                WHERE Linea = ? 
-                    AND Terminal = ?
-                    AND Estacion IN (`;
+            let sql_tren = `SELECT IDtren AS SelectedTrain FROM json 
+            WHERE Linea = "${linea}" AND Terminal = "${terminal}" 
+            AND Estacion IN (`;
 
-            const params = [linea, terminal];
+            const params = [];
             console.log({ TodasEstaciones: ests })
             ests.forEach((e, i) => {
                 console.log(e, i)
-                sql_tren += i < ests.length - 1 ? "?, " : "?)";
+                sql_tren += i < ests.length - 1 ? " ?," : " ?)";
                 params.push(e);
             })
 
             sql_tren += " ORDER BY Estacion LIMIT 1";
 
-            console.log("SQL_Trenes: " + sql_tren);
+            console.warn("SQL_Trenes: " + sql_tren);
+            console.warn("SQL_Trenes_Params: " + params);
 
             // Hacer la query
-            const results = con.query(sql_tren, req.params, (error, results) => {
+            con.query(sql_tren, params, (error, resultIDTren) => {
                 if (error) {
-                  res.status(404)
-                  console.log(error)
+                    res.status(404)
+                    console.log(error)
+                    res.json(error)
                 } else {
-                  res.json(results)
+                    //res.json(results)
+                    //console.log({ ParamsSQLTrenes: params });
+                    if (resultIDTren.length == 0){
+                        res.json({
+                            
+                        })
+                    }
+                    else{
+                        console.log("ID TREN", resultIDTren[0].SelectedTrain)
+                        const sql_vagones = `
+                            SELECT * FROM json
+                            WHERE IDtren = '` + resultIDTren[0].SelectedTrain + "';"
+
+                        console.log({ SQLVagones: sql_vagones, SQLParams: params })
+                        ////////hasta aca 
+                        con.query(sql_vagones, req.params, (err, res_vagones) => {
+                            if (error) {
+                                res.status(404)
+                                console.log(error)
+                                res.json(error)
+                            } else {
+                                console.log({ Vagones: res_vagones })
+                                console.log(err)
+                                res.json(res_vagones)
+                            }
+                        });
+                    }
                 }
-              })
-              
-              console.log({ ParamsSQLTrenes: params });
-    
-              const sql_vagones = `
-                  SELECT * FROM json
-                  WHERE IDtren = '` + results + "';"
-  
-              console.log({ SQLVagones: sql_vagones, SQLParams: params })
-              ////////hasta aca 
-              con.query(sql_vagones, req.params, (err, res_vagones) => {
-                  console.log({ Vagones: res_vagones })
-                  console.log(err)
-                  res.json(res_vagones)
-              })
-            }
-
-               
-            }
-
-    )
+            });
+        }
+    })
 })
 
 app.get("/", (req, res) => {
